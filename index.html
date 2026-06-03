@@ -533,6 +533,113 @@
     color: var(--gray-3);
   }
 
+  /* ── IMAGE SLIDER ── */
+  .project-item {
+    flex-direction: column;
+  }
+
+  .project-body {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 2.5rem;
+    align-items: start;
+    width: 100%;
+  }
+
+  .slider-wrap {
+    position: relative;
+    width: 100%;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--gray-2);
+    aspect-ratio: 16/9;
+    flex-shrink: 0;
+  }
+
+  .slider-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .slider-track img {
+    min-width: 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  .slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(14,14,14,0.7);
+    border: 0.5px solid rgba(255,255,255,0.15);
+    color: var(--white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: background 0.2s;
+    z-index: 2;
+    backdrop-filter: blur(4px);
+  }
+
+  .slider-btn:hover { background: rgba(200,240,76,0.3); color: var(--accent); }
+  .slider-btn.prev { left: 8px; }
+  .slider-btn.next { right: 8px; }
+
+  .slider-dots {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+    z-index: 2;
+  }
+
+  .slider-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .slider-dot.active {
+    background: var(--accent);
+    transform: scale(1.3);
+  }
+
+  /* override old project-item grid for image version */
+  .project-item {
+    grid-template-columns: 1fr !important;
+    padding: 2rem 0;
+  }
+
+  .project-top-row {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    gap: 2rem;
+    align-items: center;
+    margin-bottom: 1.25rem;
+  }
+
+  @media (max-width: 900px) {
+    .project-body { grid-template-columns: 1fr; }
+    .slider-wrap { aspect-ratio: 16/9; }
+  }
+
   /* ── ANIMATIONS ── */
   .fade-in {
     opacity: 0;
@@ -584,15 +691,19 @@
     <h1 class="hero-name fade-in delay-1">
       데이터로<br><em>가치를 만드는</em><br>엔지니어
     </h1>
-    <p class="hero-tagline fade-in delay-2">limur-kr &nbsp;/&nbsp; 2025~</p>
+    <p class="hero-tagline fade-in delay-2">이동근 &nbsp;/&nbsp; 2025~</p>
     <p class="hero-desc fade-in delay-3">
       데이터 파이프라인 설계부터 LLM 기반 AI 서비스 개발까지,
       실제 문제를 해결하는 데이터 중심의 개발자입니다.
-      RAG, 영상 분석, 실시간 스트리밍 파이프라인 구축 경험을 보유합니다.
+      Web기반 사이트 구축, n8n기반 자동화 경험, 머신러닝을 이용한 모델링 경험을 보유하고있습니다.
+      현재 한국인공지능협회 주관하에 매력일자리 개발자 과정을 이수 중이며,
+      Python과 SQL을 중심으로 데이터 파이프라인 구축 및 AI 서비스 개발 역량을 키우는 동시에
+      최신 AI 기술 트렌드, 영상 처리, RAG 등 실무에 적용 가능한 기술을 폭넓게 학습하고 있습니다.
     </p>
     <div class="hero-cta fade-in delay-4">
       <a href="#projects" class="btn btn-primary">프로젝트 보기 →</a>
       <a href="https://github.com/limur-kr" target="_blank" class="btn btn-ghost">GitHub ↗</a>
+      <a href="이력서_limur.pdf" download class="btn btn-ghost">이력서 다운로드 ↓</a>
     </div>
   </div>
 
@@ -712,148 +823,168 @@
 
     <!-- SPliot -->
     <div class="project-item">
-      <div class="project-num">01</div>
-      <div class="project-main">
+      <div class="project-top-row">
+        <div class="project-num">01</div>
         <div class="project-name-row">
           <a href="https://github.com/Focus-Report/SPliot" target="_blank" class="project-name" style="text-decoration:none;color:inherit;">SPliot</a>
           <span class="project-status status-wip">진행중</span>
         </div>
-        <p class="project-desc">
-          영상 분석 AI와 RAG 기반 LLM을 결합한 지능형 보고서 자동 생성 플랫폼.
-          NVIDIA Jetson Xavier 엣지 서버에서 YOLOv8 실시간 객체 탐지를 수행하고,
-          Claude API + LangGraph 에이전트가 PDF 보고서를 자동 생성합니다.
-        </p>
-        <div class="project-stack">
-          <span class="stack-tag">Next.js</span>
-          <span class="stack-tag">React</span>
-          <span class="stack-tag">TypeScript</span>
-          <span class="stack-tag">TailwindCSS</span>
-          <span class="stack-tag">Django</span>
-          <span class="stack-tag">FastAPI</span>
-          <span class="stack-tag">Python</span>
-          <span class="stack-tag">MySQL</span>
-          <span class="stack-tag">Redis</span>
-          <span class="stack-tag">Claude API</span>
-          <span class="stack-tag">LangChain</span>
-          <span class="stack-tag">LangGraph</span>
-          <span class="stack-tag">FAISS</span>
-          <span class="stack-tag">YOLOv8</span>
-          <span class="stack-tag">PyTorch</span>
-          <span class="stack-tag">OpenCV</span>
-          <span class="stack-tag">FFmpeg</span>
-          <span class="stack-tag">Docker</span>
-          <span class="stack-tag">AWS S3</span>
-          <span class="stack-tag">GitHub Actions</span>
-          <span class="stack-tag">Jetson Xavier</span>
-        </div>
-      </div>
-      <div class="project-link-col">
         <a href="https://github.com/Focus-Report/SPliot" target="_blank" class="project-link">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
           GitHub ↗
         </a>
+      </div>
+      <div class="project-body">
+        <div class="project-main">
+          <p class="project-desc">
+            영상 분석 AI와 RAG 기반 LLM을 결합한 지능형 보고서 자동 생성 플랫폼.
+            NVIDIA Jetson Xavier 엣지 서버에서 YOLOv8 실시간 객체 탐지를 수행하고,
+            Claude API + LangGraph 에이전트가 PDF 보고서를 자동 생성합니다.
+          </p>
+          <div class="project-stack">
+            <span class="stack-tag">Next.js</span><span class="stack-tag">React</span><span class="stack-tag">TypeScript</span><span class="stack-tag">TailwindCSS</span><span class="stack-tag">Django</span><span class="stack-tag">FastAPI</span><span class="stack-tag">Python</span><span class="stack-tag">MySQL</span><span class="stack-tag">Redis</span><span class="stack-tag">Claude API</span><span class="stack-tag">LangChain</span><span class="stack-tag">LangGraph</span><span class="stack-tag">FAISS</span><span class="stack-tag">YOLOv8</span><span class="stack-tag">PyTorch</span><span class="stack-tag">OpenCV</span><span class="stack-tag">FFmpeg</span><span class="stack-tag">Docker</span><span class="stack-tag">AWS S3</span><span class="stack-tag">GitHub Actions</span><span class="stack-tag">Jetson Xavier</span>
+          </div>
+        </div>
+        <div class="slider-wrap" id="slider-spliot">
+          <div class="slider-track" id="track-spliot">
+            <img src="SPliot_main.png" alt="SPliot 메인 화면" loading="lazy">
+            <img src="SPliot_report.png" alt="SPliot 보고서 화면" loading="lazy">
+          </div>
+          <div class="slider-dots" id="dots-spliot">
+            <div class="slider-dot active" onclick="goSlide('spliot',0)"></div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- CodiON -->
     <div class="project-item">
-      <div class="project-num">02</div>
-      <div class="project-main">
+      <div class="project-top-row">
+        <div class="project-num">02</div>
         <div class="project-name-row">
           <a href="https://github.com/Codi-ON/CodiON" target="_blank" class="project-name" style="text-decoration:none;color:inherit;">CodiON</a>
           <span class="project-status status-done">완료</span>
         </div>
-        <p class="project-desc">
-          날씨·일정·보유 의류 데이터를 종합하여 AI가 오늘의 코디를 추천하는 서비스.
-          LightGBM 기반 소재 추천 모델(R² 97%)과 Gemini Vision을 활용한
-          의류 자동 분류(정확도 94%)를 구현했습니다.
-        </p>
-        <div class="project-stack">
-          <span class="stack-tag">React 18</span>
-          <span class="stack-tag">TypeScript</span>
-          <span class="stack-tag">Vite</span>
-          <span class="stack-tag">Zustand</span>
-          <span class="stack-tag">TailwindCSS</span>
-          <span class="stack-tag">Spring Boot</span>
-          <span class="stack-tag">Java 17</span>
-          <span class="stack-tag">FastAPI</span>
-          <span class="stack-tag">Python</span>
-          <span class="stack-tag">PostgreSQL</span>
-          <span class="stack-tag">LightGBM</span>
-          <span class="stack-tag">n8n</span>
-          <span class="stack-tag">Docker</span>
-          <span class="stack-tag">AWS EC2</span>
-        </div>
-      </div>
-      <div class="project-link-col">
         <a href="https://github.com/Codi-ON/CodiON" target="_blank" class="project-link">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
           GitHub ↗
         </a>
+      </div>
+      <div class="project-body">
+        <div class="project-main">
+          <p class="project-desc">
+            날씨·일정·보유 의류 데이터를 종합하여 AI가 오늘의 코디를 추천하는 서비스.
+            LightGBM 기반 소재 추천 모델(R² 97%)과 Gemini Vision을 활용한
+            의류 자동 분류(정확도 94%)를 구현했습니다.
+          </p>
+          <div class="project-stack">
+            <span class="stack-tag">React 18</span><span class="stack-tag">TypeScript</span><span class="stack-tag">Vite</span><span class="stack-tag">Zustand</span><span class="stack-tag">TailwindCSS</span><span class="stack-tag">Spring Boot</span><span class="stack-tag">Java 17</span><span class="stack-tag">FastAPI</span><span class="stack-tag">Python</span><span class="stack-tag">PostgreSQL</span><span class="stack-tag">LightGBM</span><span class="stack-tag">n8n</span><span class="stack-tag">Docker</span><span class="stack-tag">AWS EC2</span>
+          </div>
+        </div>
+        <div class="slider-wrap" id="slider-codion">
+          <div class="slider-track" id="track-codion">
+            <img src="CodiON_main.png" alt="CodiON 메인" loading="lazy">
+            <img src="CodiON_end.png" alt="CodiON 추천 결과" loading="lazy">
+            <img src="CodiON_1.png" alt="CodiON 의류 등록" loading="lazy">
+            <img src="CodiON_chatbot.png" alt="CodiON AI 챗봇" loading="lazy">
+          </div>
+          <button class="slider-btn prev" onclick="moveSlide('codion',-1)">‹</button>
+          <button class="slider-btn next" onclick="moveSlide('codion',1)">›</button>
+          <div class="slider-dots" id="dots-codion">
+            <div class="slider-dot active" onclick="goSlide('codion',0)"></div>
+            <div class="slider-dot" onclick="goSlide('codion',1)"></div>
+            <div class="slider-dot" onclick="goSlide('codion',2)"></div>
+            <div class="slider-dot" onclick="goSlide('codion',3)"></div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- WooriZIP -->
     <div class="project-item">
-      <div class="project-num">03</div>
-      <div class="project-main">
+      <div class="project-top-row">
+        <div class="project-num">03</div>
         <div class="project-name-row">
           <a href="https://github.com/go-nu/WooriZIP" target="_blank" class="project-name" style="text-decoration:none;color:inherit;">WooriZIP</a>
           <span class="project-status status-done">완료</span>
         </div>
-        <p class="project-desc">
-          Spring Boot 기반 인테리어 쇼핑몰 & 커뮤니티 플랫폼.
-          Google/Naver/Kakao OAuth2 소셜 로그인, LightFM 협업 필터링 추천 시스템,
-          키워드 매칭 AI 챗봇을 포함한 풀스택 e-commerce 서비스입니다.
-        </p>
-        <div class="project-stack">
-          <span class="stack-tag">Java 17</span>
-          <span class="stack-tag">Spring Boot</span>
-          <span class="stack-tag">Spring Security</span>
-          <span class="stack-tag">JPA</span>
-          <span class="stack-tag">MySQL 8.0</span>
-          <span class="stack-tag">Thymeleaf</span>
-          <span class="stack-tag">OAuth2</span>
-          <span class="stack-tag">FastAPI</span>
-          <span class="stack-tag">LightFM</span>
-        </div>
-      </div>
-      <div class="project-link-col">
         <a href="https://github.com/go-nu/WooriZIP" target="_blank" class="project-link">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
           GitHub ↗
         </a>
+      </div>
+      <div class="project-body">
+        <div class="project-main">
+          <p class="project-desc">
+            Spring Boot 기반 인테리어 쇼핑몰 & 커뮤니티 플랫폼.
+            Google/Naver/Kakao OAuth2 소셜 로그인, LightFM 협업 필터링 추천 시스템,
+            키워드 매칭 AI 챗봇을 포함한 풀스택 e-commerce 서비스입니다.
+          </p>
+          <div class="project-stack">
+            <span class="stack-tag">Java 17</span><span class="stack-tag">Spring Boot</span><span class="stack-tag">Spring Security</span><span class="stack-tag">JPA</span><span class="stack-tag">MySQL 8.0</span><span class="stack-tag">Thymeleaf</span><span class="stack-tag">OAuth2</span><span class="stack-tag">FastAPI</span><span class="stack-tag">LightFM</span>
+          </div>
+        </div>
+        <div class="slider-wrap" id="slider-woorizip">
+          <div class="slider-track" id="track-woorizip">
+            <img src="우리집_메인.png" alt="WooriZIP 메인" loading="lazy">
+            <img src="우리집_상품목록.png" alt="WooriZIP 상품 목록" loading="lazy">
+            <img src="우리집_상품등록.png" alt="WooriZIP 상품 등록" loading="lazy">
+            <img src="우리집_주문내역.png" alt="WooriZIP 주문 내역" loading="lazy">
+          </div>
+          <button class="slider-btn prev" onclick="moveSlide('woorizip',-1)">‹</button>
+          <button class="slider-btn next" onclick="moveSlide('woorizip',1)">›</button>
+          <div class="slider-dots" id="dots-woorizip">
+            <div class="slider-dot active" onclick="goSlide('woorizip',0)"></div>
+            <div class="slider-dot" onclick="goSlide('woorizip',1)"></div>
+            <div class="slider-dot" onclick="goSlide('woorizip',2)"></div>
+            <div class="slider-dot" onclick="goSlide('woorizip',3)"></div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- GongGan -->
     <div class="project-item">
-      <div class="project-num">04</div>
-      <div class="project-main">
+      <div class="project-top-row">
+        <div class="project-num">04</div>
         <div class="project-name-row">
           <a href="https://github.com/go-nu/GongGan" target="_blank" class="project-name" style="text-decoration:none;color:inherit;">GongGan</a>
           <span class="project-status status-done">완료</span>
         </div>
-        <p class="project-desc">
-          외국인 및 국내 사용자를 위한 K-Culture 종합 정보 웹 서비스.
-          K-Food 커뮤니티 게시판, K-Beauty 화장품 정보, 네이버 지도 API 연동 관광지 탐색,
-          체험 예약 시스템, 관리자 대시보드를 갖춘 풀스택 MVC 플랫폼입니다.
-        </p>
-        <div class="project-stack">
-          <span class="stack-tag">Java 17</span>
-          <span class="stack-tag">Servlet / JSP</span>
-          <span class="stack-tag">MySQL 8.x</span>
-          <span class="stack-tag">Apache Tomcat 10.1</span>
-          <span class="stack-tag">Bootstrap 5</span>
-          <span class="stack-tag">jQuery 3.6</span>
-          <span class="stack-tag">Naver Maps API</span>
-        </div>
-      </div>
-      <div class="project-link-col">
         <a href="https://github.com/go-nu/GongGan" target="_blank" class="project-link">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
           GitHub ↗
         </a>
+      </div>
+      <div class="project-body">
+        <div class="project-main">
+          <p class="project-desc">
+            외국인 및 국내 사용자를 위한 K-Culture 종합 정보 웹 서비스.
+            K-Food 커뮤니티 게시판, K-Beauty 화장품 정보, 네이버 지도 API 연동 관광지 탐색,
+            체험 예약 시스템, 관리자 대시보드를 갖춘 풀스택 MVC 플랫폼입니다.
+          </p>
+          <div class="project-stack">
+            <span class="stack-tag">Java 17</span><span class="stack-tag">Servlet / JSP</span><span class="stack-tag">MySQL 8.x</span><span class="stack-tag">Apache Tomcat 10.1</span><span class="stack-tag">Bootstrap 5</span><span class="stack-tag">jQuery 3.6</span><span class="stack-tag">Naver Maps API</span>
+          </div>
+        </div>
+        <div class="slider-wrap" id="slider-gonggan">
+          <div class="slider-track" id="track-gonggan">
+            <img src="gonggan_main.png" alt="GongGan 메인" loading="lazy">
+            <img src="gonggan_beauty.png" alt="GongGan K-Beauty" loading="lazy">
+            <img src="gonggan_location.png" alt="GongGan 관광지" loading="lazy">
+            <img src="gonggan_board_list.png" alt="GongGan 게시판" loading="lazy">
+            <img src="gonggan_signup.png" alt="GongGan 회원가입" loading="lazy">
+          </div>
+          <button class="slider-btn prev" onclick="moveSlide('gonggan',-1)">‹</button>
+          <button class="slider-btn next" onclick="moveSlide('gonggan',1)">›</button>
+          <div class="slider-dots" id="dots-gonggan">
+            <div class="slider-dot active" onclick="goSlide('gonggan',0)"></div>
+            <div class="slider-dot" onclick="goSlide('gonggan',1)"></div>
+            <div class="slider-dot" onclick="goSlide('gonggan',2)"></div>
+            <div class="slider-dot" onclick="goSlide('gonggan',3)"></div>
+            <div class="slider-dot" onclick="goSlide('gonggan',4)"></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -888,5 +1019,40 @@
   <span class="footer-right">Data Engineer · AI Developer</span>
 </footer>
 
+<script>
+  const sliders = {};
+
+  function initSlider(id) {
+    sliders[id] = { current: 0 };
+  }
+
+  function getTotal(id) {
+    return document.getElementById('track-' + id).children.length;
+  }
+
+  function updateSlider(id) {
+    const track = document.getElementById('track-' + id);
+    const dots = document.querySelectorAll('#dots-' + id + ' .slider-dot');
+    const idx = sliders[id].current;
+    track.style.transform = 'translateX(-' + (idx * 100) + '%)';
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  }
+
+  function moveSlide(id, dir) {
+    if (!sliders[id]) initSlider(id);
+    const total = getTotal(id);
+    sliders[id].current = (sliders[id].current + dir + total) % total;
+    updateSlider(id);
+  }
+
+  function goSlide(id, idx) {
+    if (!sliders[id]) initSlider(id);
+    sliders[id].current = idx;
+    updateSlider(id);
+  }
+
+  // Init all
+  ['spliot','codion','woorizip','gonggan'].forEach(initSlider);
+</script>
 </body>
 </html>
