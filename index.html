@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>limur-kr — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Instrument+Serif:ital@0;1&family=Pretendard:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0e0e0e;
+    --white: #f5f4f0;
+    --gray-1: #1a1a1a;
+    --gray-2: #2a2a2a;
+    --gray-3: #555;
+    --gray-4: #888;
+    --gray-5: #bbb;
+    --accent: #c8f04c;
+    --accent-dim: #a8d03c;
+    --teal: #4cfad4;
+    --coral: #ff6b5b;
+    --mono: 'DM Mono', monospace;
+    --serif: 'Instrument Serif', serif;
+    --sans: 'Pretendard', -apple-system, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── Noise texture overlay ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    background-size: 150px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 3rem;
+    background: rgba(14,14,14,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid rgba(255,255,255,0.06);
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--gray-4);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 6rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .hero-left { position: relative; z-index: 1; }
+
+  .hero-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-label::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .hero-name {
+    font-family: var(--serif);
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+    color: var(--white);
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-tagline {
+    font-size: 14px;
+    color: var(--gray-4);
+    margin-bottom: 2.5rem;
+    font-family: var(--mono);
+    letter-spacing: 0.04em;
+  }
+
+  .hero-desc {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--gray-5);
+    max-width: 440px;
+    margin-bottom: 3rem;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    padding: 0.75rem 1.75rem;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--black);
+    border: none;
+    font-weight: 500;
+  }
+
+  .btn-primary:hover { background: var(--accent-dim); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--gray-4);
+    border: 0.5px solid rgba(255,255,255,0.15);
+  }
+
+  .btn-ghost:hover { color: var(--white); border-color: rgba(255,255,255,0.35); }
+
+  /* Hero right — floating terminal */
+  .hero-right {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .terminal {
+    background: var(--gray-1);
+    border: 0.5px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    width: 100%;
+    max-width: 440px;
+    overflow: hidden;
+  }
+
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    background: var(--gray-2);
+    border-bottom: 0.5px solid rgba(255,255,255,0.06);
+  }
+
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #ff5f57; }
+  .dot-y { background: #febc2e; }
+  .dot-g { background: #28c840; }
+
+  .terminal-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gray-4);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .terminal-body {
+    padding: 1.25rem 1.5rem;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 2;
+  }
+
+  .t-prompt { color: var(--accent); }
+  .t-cmd { color: var(--white); }
+  .t-key { color: var(--teal); }
+  .t-val { color: var(--gray-5); }
+  .t-comment { color: var(--gray-3); font-style: italic; }
+  .t-section { color: var(--coral); }
+  .t-cursor {
+    display: inline-block;
+    width: 8px; height: 14px;
+    background: var(--accent);
+    animation: blink 1.1s step-end infinite;
+    vertical-align: middle;
+    margin-left: 2px;
+  }
+
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ── SECTION BASE ── */
+  section { padding: 7rem 3rem; position: relative; z-index: 1; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 400;
+    color: var(--white);
+    letter-spacing: -0.02em;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 0.5px;
+    background: rgba(255,255,255,0.08);
+    margin-bottom: 4px;
+  }
+
+  /* ── SKILLS ── */
+  .skills-section { background: var(--gray-1); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1px;
+    background: rgba(255,255,255,0.05);
+    border: 0.5px solid rgba(255,255,255,0.05);
+  }
+
+  .skill-group {
+    background: var(--black);
+    padding: 1.75rem;
+    transition: background 0.2s;
+  }
+
+  .skill-group:hover { background: var(--gray-1); }
+
+  .skill-group-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 10px;
+    border: 0.5px solid rgba(255,255,255,0.1);
+    color: var(--gray-5);
+    border-radius: 2px;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+
+  .tag:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .tag.active {
+    background: rgba(200, 240, 76, 0.08);
+    border-color: rgba(200, 240, 76, 0.4);
+    color: var(--accent);
+  }
+
+  /* ── PROJECTS ── */
+  .projects-list { display: flex; flex-direction: column; gap: 0; }
+
+  .project-item {
+    border-bottom: 0.5px solid rgba(255,255,255,0.06);
+    padding: 2.5rem 0;
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    gap: 2rem;
+    align-items: start;
+    transition: background 0.2s;
+    cursor: default;
+  }
+
+  .project-item:first-child { border-top: 0.5px solid rgba(255,255,255,0.06); }
+
+  .project-item:hover { background: rgba(255,255,255,0.02); margin: 0 -3rem; padding-left: 3rem; padding-right: 3rem; }
+
+  .project-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gray-3);
+    padding-top: 4px;
+  }
+
+  .project-main { min-width: 0; }
+
+  .project-name-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .project-name {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    transition: color 0.2s;
+  }
+
+  .project-name:hover { color: var(--accent); }
+
+  .project-status {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 100px;
+  }
+
+  .status-done { background: rgba(76, 250, 212, 0.1); color: var(--teal); border: 0.5px solid rgba(76,250,212,0.25); }
+  .status-wip { background: rgba(200, 240, 76, 0.1); color: var(--accent); border: 0.5px solid rgba(200,240,76,0.25); animation: pulse-border 2s infinite; }
+
+  @keyframes pulse-border {
+    0%, 100% { border-color: rgba(200,240,76,0.25); }
+    50% { border-color: rgba(200,240,76,0.6); }
+  }
+
+  .project-desc {
+    font-size: 14px;
+    color: var(--gray-4);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+    max-width: 560px;
+  }
+
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .stack-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--gray-3);
+    padding: 2px 8px;
+    border: 0.5px solid rgba(255,255,255,0.06);
+    border-radius: 2px;
+  }
+
+  .project-link-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-top: 4px;
+  }
+
+  .project-link {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gray-3);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+
+  .project-link:hover { color: var(--white); }
+
+  .project-link svg {
+    width: 12px; height: 12px;
+    flex-shrink: 0;
+  }
+
+  /* ── CONTACT ── */
+  .contact-section {
+    border-top: 0.5px solid rgba(255,255,255,0.06);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .contact-big {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 5vw, 4rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--white);
+  }
+
+  .contact-big em { font-style: italic; color: var(--accent); }
+
+  .contact-links { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .contact-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1.5rem;
+    border-bottom: 0.5px solid rgba(255,255,255,0.06);
+  }
+
+  .contact-row:last-child { border-bottom: none; }
+
+  .contact-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gray-3);
+  }
+
+  .contact-value {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--gray-5);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .contact-value:hover { color: var(--accent); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem 3rem;
+    border-top: 0.5px solid rgba(255,255,255,0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-left {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gray-3);
+  }
+
+  .footer-right {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gray-3);
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(18px);
+    animation: fadeIn 0.7s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; transform: none; }
+  }
+
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.45s; }
+  .delay-5 { animation-delay: 0.6s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.25rem; }
+    .hero { grid-template-columns: 1fr; padding: 5rem 1.5rem 3rem; gap: 3rem; }
+    .hero-right { justify-content: center; }
+    section { padding: 5rem 1.5rem; }
+    .contact-section { grid-template-columns: 1fr; }
+    .project-item { grid-template-columns: 40px 1fr; }
+    .project-link-col { display: none; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">limur-kr</a>
+  <ul class="nav-links">
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-left">
+    <p class="hero-label fade-in">Data Engineer · AI Developer</p>
+    <h1 class="hero-name fade-in delay-1">
+      데이터로<br><em>가치를 만드는</em><br>엔지니어
+    </h1>
+    <p class="hero-tagline fade-in delay-2">limur-kr &nbsp;/&nbsp; 2025~</p>
+    <p class="hero-desc fade-in delay-3">
+      데이터 파이프라인 설계부터 LLM 기반 AI 서비스 개발까지,
+      실제 문제를 해결하는 데이터 중심의 개발자입니다.
+      RAG, 영상 분석, 실시간 스트리밍 파이프라인 구축 경험을 보유합니다.
+    </p>
+    <div class="hero-cta fade-in delay-4">
+      <a href="#projects" class="btn btn-primary">프로젝트 보기 →</a>
+      <a href="https://github.com/limur-kr" target="_blank" class="btn btn-ghost">GitHub ↗</a>
+    </div>
+  </div>
+
+  <div class="hero-right fade-in delay-5">
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <span class="terminal-title">profile.json</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="t-prompt">$ </span><span class="t-cmd">cat profile.json</span></div>
+        <div>&nbsp;</div>
+        <div><span class="t-section">{</span></div>
+        <div>&nbsp;&nbsp;<span class="t-key">"role"</span>: <span class="t-val">"Data Engineer / AI Dev"</span>,</div>
+        <div>&nbsp;&nbsp;<span class="t-key">"focus"</span>: [</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-val">"RAG &amp; LLM Pipeline"</span>,</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-val">"Video AI (YOLOv8)"</span>,</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-val">"Data Engineering"</span></div>
+        <div>&nbsp;&nbsp;],</div>
+        <div>&nbsp;&nbsp;<span class="t-key">"stack"</span>: <span class="t-val">"Python · Django · FastAPI"</span>,</div>
+        <div>&nbsp;&nbsp;<span class="t-key">"infra"</span>: <span class="t-val">"Docker · AWS · Jetson"</span>,</div>
+        <div>&nbsp;&nbsp;<span class="t-key">"status"</span>: <span class="t-val">"open to opportunities"</span></div>
+        <div><span class="t-section">}</span></div>
+        <div>&nbsp;</div>
+        <div><span class="t-prompt">$ </span><span class="t-cursor"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills-section" id="skills">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Skills</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="skills-grid">
+    <div class="skill-group">
+      <p class="skill-group-label">Frontend</p>
+      <div class="skill-tags">
+        <span class="tag active">React</span>
+        <span class="tag active">Next.js</span>
+        <span class="tag active">TypeScript</span>
+        <span class="tag active">TailwindCSS</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group-label">Backend</p>
+      <div class="skill-tags">
+        <span class="tag active">Python</span>
+        <span class="tag active">FastAPI</span>
+        <span class="tag active">Django</span>
+        <span class="tag">DRF</span>
+        <span class="tag">Spring Boot</span>
+        <span class="tag">Java</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group-label">AI / ML</p>
+      <div class="skill-tags">
+        <span class="tag active">LangChain</span>
+        <span class="tag active">LangGraph</span>
+        <span class="tag active">RAG</span>
+        <span class="tag active">Claude API</span>
+        <span class="tag active">YOLOv8</span>
+        <span class="tag active">PyTorch</span>
+        <span class="tag">FAISS</span>
+        <span class="tag">LightGBM</span>
+        <span class="tag">OpenCV</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group-label">Database</p>
+      <div class="skill-tags">
+        <span class="tag active">MySQL</span>
+        <span class="tag active">PostgreSQL</span>
+        <span class="tag active">Redis</span>
+        <span class="tag">FAISS</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group-label">Infra / DevOps</p>
+      <div class="skill-tags">
+        <span class="tag active">Docker</span>
+        <span class="tag active">AWS S3</span>
+        <span class="tag active">AWS EC2</span>
+        <span class="tag active">GitHub Actions</span>
+        <span class="tag">NVIDIA Jetson</span>
+        <span class="tag">FFmpeg</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group-label">Tools</p>
+      <div class="skill-tags">
+        <span class="tag">n8n</span>
+        <span class="tag">Git</span>
+        <span class="tag">Jinja2</span>
+        <span class="tag">WeasyPrint</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="padding-top: 7rem; padding-bottom: 7rem; padding-left: 3rem; padding-right: 3rem; position: relative; z-index: 1;">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Projects</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="projects-list">
+
+    <!-- SPliot -->
+    <div class="project-item">
+      <div class="project-num">01</div>
+      <div class="project-main">
+        <div class="project-name-row">
+          <a href="https://github.com/Focus-Report/SPliot" target="_blank" class="project-name" style="text-decoration:none;color:inherit;">SPliot</a>
+          <span class="project-status status-wip">진행중</span>
+        </div>
+        <p class="project-desc">
+          영상 분석 AI와 RAG 기반 LLM을 결합한 지능형 보고서 자동 생성 플랫폼.
+          NVIDIA Jetson Xavier 엣지 서버에서 YOLOv8 실시간 객체 탐지를 수행하고,
+          Claude API + LangGraph 에이전트가 PDF 보고서를 자동 생성합니다.
+        </p>
+        <div class="project-stack">
+          <span class="stack-tag">Next.js</span>
+          <span class="stack-tag">React</span>
+          <span class="stack-tag">TypeScript</span>
+          <span class="stack-tag">TailwindCSS</span>
+          <span class="stack-tag">Django</span>
+          <span class="stack-tag">FastAPI</span>
+          <span class="stack-tag">Python</span>
+          <span class="stack-tag">MySQL</span>
+          <span class="stack-tag">Redis</span>
+          <span class="stack-tag">Claude API</span>
+          <span class="stack-tag">LangChain</span>
+          <span class="stack-tag">LangGraph</span>
+          <span class="stack-tag">FAISS</span>
+          <span class="stack-tag">YOLOv8</span>
+          <span class="stack-tag">PyTorch</span>
+          <span class="stack-tag">OpenCV</span>
+          <span class="stack-tag">FFmpeg</span>
+          <span class="stack-tag">Docker</span>
+          <span class="stack-tag">AWS S3</span>
+          <span class="stack-tag">GitHub Actions</span>
+          <span class="stack-tag">Jetson Xavier</span>
+        </div>
+      </div>
+      <div class="project-link-col">
+        <a href="https://github.com/Focus-Report/SPliot" target="_blank" class="project-link">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub ↗
+        </a>
+      </div>
+    </div>
+
+    <!-- CodiON -->
+    <div class="project-item">
+      <div class="project-num">02</div>
+      <div class="project-main">
+        <div class="project-name-row">
+          <a href="https://github.com/Codi-ON/CodiON" target="_blank" class="project-name" style="text-decoration:none;color:inherit;">CodiON</a>
+          <span class="project-status status-done">완료</span>
+        </div>
+        <p class="project-desc">
+          날씨·일정·보유 의류 데이터를 종합하여 AI가 오늘의 코디를 추천하는 서비스.
+          LightGBM 기반 소재 추천 모델(R² 97%)과 Gemini Vision을 활용한
+          의류 자동 분류(정확도 94%)를 구현했습니다.
+        </p>
+        <div class="project-stack">
+          <span class="stack-tag">React 18</span>
+          <span class="stack-tag">TypeScript</span>
+          <span class="stack-tag">Vite</span>
+          <span class="stack-tag">Zustand</span>
+          <span class="stack-tag">TailwindCSS</span>
+          <span class="stack-tag">Spring Boot</span>
+          <span class="stack-tag">Java 17</span>
+          <span class="stack-tag">FastAPI</span>
+          <span class="stack-tag">Python</span>
+          <span class="stack-tag">PostgreSQL</span>
+          <span class="stack-tag">LightGBM</span>
+          <span class="stack-tag">n8n</span>
+          <span class="stack-tag">Docker</span>
+          <span class="stack-tag">AWS EC2</span>
+        </div>
+      </div>
+      <div class="project-link-col">
+        <a href="https://github.com/Codi-ON/CodiON" target="_blank" class="project-link">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub ↗
+        </a>
+      </div>
+    </div>
+
+    <!-- WooriZIP -->
+    <div class="project-item">
+      <div class="project-num">03</div>
+      <div class="project-main">
+        <div class="project-name-row">
+          <a href="https://github.com/go-nu/WooriZIP" target="_blank" class="project-name" style="text-decoration:none;color:inherit;">WooriZIP</a>
+          <span class="project-status status-done">완료</span>
+        </div>
+        <p class="project-desc">
+          Spring Boot 기반 인테리어 쇼핑몰 & 커뮤니티 플랫폼.
+          Google/Naver/Kakao OAuth2 소셜 로그인, LightFM 협업 필터링 추천 시스템,
+          키워드 매칭 AI 챗봇을 포함한 풀스택 e-commerce 서비스입니다.
+        </p>
+        <div class="project-stack">
+          <span class="stack-tag">Java 17</span>
+          <span class="stack-tag">Spring Boot</span>
+          <span class="stack-tag">Spring Security</span>
+          <span class="stack-tag">JPA</span>
+          <span class="stack-tag">MySQL 8.0</span>
+          <span class="stack-tag">Thymeleaf</span>
+          <span class="stack-tag">OAuth2</span>
+          <span class="stack-tag">FastAPI</span>
+          <span class="stack-tag">LightFM</span>
+        </div>
+      </div>
+      <div class="project-link-col">
+        <a href="https://github.com/go-nu/WooriZIP" target="_blank" class="project-link">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub ↗
+        </a>
+      </div>
+    </div>
+
+    <!-- GongGan -->
+    <div class="project-item">
+      <div class="project-num">04</div>
+      <div class="project-main">
+        <div class="project-name-row">
+          <a href="https://github.com/go-nu/GongGan" target="_blank" class="project-name" style="text-decoration:none;color:inherit;">GongGan</a>
+          <span class="project-status status-done">완료</span>
+        </div>
+        <p class="project-desc">
+          외국인 및 국내 사용자를 위한 K-Culture 종합 정보 웹 서비스.
+          K-Food 커뮤니티 게시판, K-Beauty 화장품 정보, 네이버 지도 API 연동 관광지 탐색,
+          체험 예약 시스템, 관리자 대시보드를 갖춘 풀스택 MVC 플랫폼입니다.
+        </p>
+        <div class="project-stack">
+          <span class="stack-tag">Java 17</span>
+          <span class="stack-tag">Servlet / JSP</span>
+          <span class="stack-tag">MySQL 8.x</span>
+          <span class="stack-tag">Apache Tomcat 10.1</span>
+          <span class="stack-tag">Bootstrap 5</span>
+          <span class="stack-tag">jQuery 3.6</span>
+          <span class="stack-tag">Naver Maps API</span>
+        </div>
+      </div>
+      <div class="project-link-col">
+        <a href="https://github.com/go-nu/GongGan" target="_blank" class="project-link">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub ↗
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact" style="padding: 7rem 3rem; position: relative; z-index: 1;">
+  <div>
+    <p style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; color: var(--accent); text-transform: uppercase; margin-bottom: 1.5rem;">03 — Contact</p>
+    <h2 class="contact-big">함께 만들고<br>싶은 것이<br><em>있으신가요?</em></h2>
+  </div>
+  <div class="contact-links">
+    <div class="contact-row">
+      <span class="contact-label">GitHub</span>
+      <a href="https://github.com/limur-kr" target="_blank" class="contact-value">github.com/limur-kr ↗</a>
+    </div>
+    <div class="contact-row">
+      <span class="contact-label">Email</span>
+      <a href="mailto:dong110999@gmail.com" class="contact-value">dong110999@gmail.com</a>
+    </div>
+    <div class="contact-row">
+      <span class="contact-label">Portfolio</span>
+      <a href="https://limur-kr.github.io" class="contact-value">limur-kr.github.io ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-left">© 2025 limur-kr</span>
+  <span class="footer-right">Data Engineer · AI Developer</span>
+</footer>
+
+</body>
+</html>
